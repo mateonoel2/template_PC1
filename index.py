@@ -1,5 +1,5 @@
 from dataclasses import dataclass
-from flask import Flask, jsonify,  request
+from flask import Flask, jsonify,  request, render_template, redirect
 from flask_sqlalchemy import SQLAlchemy
 app = Flask(__name__)
 
@@ -22,6 +22,10 @@ class Player(db.Model):
     def __repr__(self):
         return f'<Player {self.firstname}>'
 
+@app.route('/')
+def menu():
+    return render_template('menu.html')
+
 @app.route('/players', methods=['GET'])
 def route_get_players():
     return get_players()
@@ -32,8 +36,14 @@ def route_get_player(player_id):
 
 @app.route('/players/add',  methods = ['POST'])
 def route_add_player():
-    player = request.get_json()
-    return insert_player(player)
+    firstname = request.form['firstname']
+    lastname = request.form['lastname']
+    print(firstname)
+    print(lastname)
+    player = Player(firstname=firstname, lastname=lastname)
+    db.session.add(player)
+    db.session.commit()
+    return redirect('/')
 
 @app.route('/players/update',  methods = ['PUT'])
 def route_update_player():
