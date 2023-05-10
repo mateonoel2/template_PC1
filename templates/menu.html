@@ -4,12 +4,15 @@
 
 <h1>Tic Tac Toe</h1>
 
-<button onclick="goToPlayersPage()">Go to Players page</button>
-<script>
-    function goToPlayersPage() {
-      window.location.href = "/players";
-    }
-  </script>
+<form action="/players/list" method="GET">
+  <button type="submit">View players</button>
+</form>
+
+<ul>
+  {% for player in players %}
+    <li>{{ player.id }} - {{ player.firstname }} - {{ player.lastname }}</li>
+  {% endfor %}
+</ul>
 
 <br>
 <br>
@@ -24,6 +27,22 @@
 
   <button type="submit">Add Player</button>
 </form>
+
+<br>
+<br>
+<br>
+
+<form action="/players/delete" method="POST">
+  <input type="hidden" name="_method" value="DELETE">
+  <label for="player_id">Player ID:</label>
+  <input type="text" id="player_id" name="player_id"><br><br>
+  <button type="submit">Delete Player</button>
+</form>
+
+{% if error_message %}
+<p class="error">{{ error_message }}</p>
+{% endif %}
+
 
 </body>
 </html>
