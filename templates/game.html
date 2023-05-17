@@ -1,0 +1,50 @@
+<!doctype html>
+<html>
+
+   <h1>Login</h1>
+  
+   <script>
+        function login() {
+            var username = document.getElementById("username").value;
+            var password = document.getElementById("password").value;
+            var data = { "username": username, "password": password };
+
+            fetch('/login', {
+                method: 'POST',
+                body: JSON.stringify(data),
+                headers:{
+                    'Content-Type': 'application/json'
+                }
+            })   
+            .then(response => response.text())
+            .then(text =>   {
+                                if (text === "SUCCESS") {
+                                    window.location.href = "/game_menu";
+                                }
+                                else {
+                                    document.body.innerHTML = text;
+                                }
+                            }
+            )
+        }
+   </script>
+
+ <body>
+   <div id="message"></div>
+   <label for="username">Username:</label>
+   <input type="text" id="username" name="username" required>
+   <br>
+   <br>
+   <label for="password">Password:</label>
+   <input type="password" id="password" name="password" required>
+   <br>
+   <br>
+   <button type="button" onclick="login()">Login</button>
+
+ {% for mesg in get_flashed_messages() %}
+ <p>{{ mesg }}</p>
+ {% endfor %}
+
+</body>
+
+</html>

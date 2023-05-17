@@ -1,48 +1,22 @@
-<!DOCTYPE html>
 <html>
-<body>
 
-<h1>Tic Tac Toe</h1>
+<h1>Main menu</h1>
 
-<form action="/players/list" method="GET">
-  <button type="submit">View players</button>
-</form>
-
-<ul>
-  {% for player in players %}
-    <li>{{ player.id }} - {{ player.firstname }} - {{ player.lastname }}</li>
-  {% endfor %}
-</ul>
+<button onclick="goToSignUpPage()">Sign Up</button>
+<script>
+    function goToSignUpPage() {
+      window.location.href = "/signup_menu";
+    }
+  </script>
 
 <br>
 <br>
-<br>
 
-<form action="/players/add" method="POST">
-  <label for="firstname">First Name:</label>
-  <input type="text" id="firstname" name="firstname"><br><br>
-  
-  <label for="lastname">Last Name:</label>
-  <input type="text" id="lastname" name="lastname"><br><br>
+<button onclick="goToLogInPage()">Log In</button>
+<script>
+    function goToLogInPage() {
+      window.location.href = "/login_menu";
+    }
+  </script>
 
-  <button type="submit">Add Player</button>
-</form>
-
-<br>
-<br>
-<br>
-
-<form action="/players/delete" method="POST">
-  <input type="hidden" name="_method" value="DELETE">
-  <label for="player_id">Player ID:</label>
-  <input type="text" id="player_id" name="player_id"><br><br>
-  <button type="submit">Delete Player</button>
-</form>
-
-{% if error_message %}
-<p class="error">{{ error_message }}</p>
-{% endif %}
-
-
-</body>
 </html>
