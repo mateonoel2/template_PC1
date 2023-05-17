@@ -151,3 +151,5 @@ def route_players_id(player_id):
         db.session.delete(player)
         db.session.commit()
         return "SUCCESS"
+    
+
