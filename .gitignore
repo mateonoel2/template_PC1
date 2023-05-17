@@ -1,3 +1,4 @@
 **/__pycache__/**
 *.db
 templates/## Configuration.md
+.DS_Store

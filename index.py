@@ -1,7 +1,6 @@
 from dataclasses import dataclass
 from flask import Flask, jsonify,  request, render_template, redirect, flash
 from flask_sqlalchemy import SQLAlchemy
-from typing import List
 
 app = Flask(__name__)
 
@@ -17,12 +16,15 @@ class Player(db.Model):
     id: int
     username: str
     password: str
+    logged: bool
+    in_game: bool
 
     id = db.Column(db.Integer, primary_key=True)
     username = db.Column(db.String(100), nullable=False)
     password = db.Column(db.String(100), nullable=False)
+    logged = db.Column(db.Boolean, nullable=False, default=False)
+    in_game = db.Column(db.Boolean, nullable=False, default=False)
     
-
     def __repr__(self):
         return f'<Player {self.username}>'
     
@@ -34,12 +36,12 @@ class Game(db.Model):
     id: int
     player1_id: int
     player2_id: int
-    board: List[int]
+    board: str
 
     id = db.Column(db.Integer, primary_key=True)
     player1_id = db.Column(db.Integer, nullable=False)
     player2_id = db.Column(db.Integer, nullable=False)
-    board = db.Column(db.PickleType, nullable=False, default=[0, 0, 0, 0, 0, 0, 0, 0, 0])
+    board = db.Column(db.String, nullable=False, default="_________")
 
     def __repr__(self):
         return f'<Game {self.id}>'
@@ -81,9 +83,11 @@ def route_games():
         db.session.add(game)
         db.session.commit()
         return "SUCCESS"
+    
     elif request.method == 'GET':
         games = Game.query.all()
         return jsonify(games)
+    
     elif request.method == 'DELETE':
         games = Game.query.all()
         for game in games:
@@ -96,59 +100,54 @@ def route_games_id(game_id):
     if request.method == 'GET':
         game = Game.query.get_or_404(game_id)
         return jsonify(game)
+    
     elif request.method == 'DELETE':
         game = Game.query.get_or_404(game_id)
         db.session.delete(game)
         db.session.commit()
         return "SUCCESS"
+    
     elif request.method == 'PUT':
         data = request.get_json()
+        index = data["index"]
+
         game = Game.query.get_or_404(game_id)
-        game.board = data["board"]
+        new_string = game.board[:index] + 'X' + game.board[index + 1:]
+        game.board = new_string
+
+        db.session.add(game)
         db.session.commit()
         return "SUCCESS"
 
 @app.route('/players', methods=['GET', 'POST'])
 def route_players():
     if request.method == 'GET':
-        return get_players()
+        players = Player.query.all()
+        return jsonify(players)
+    
     elif request.method == 'POST':
-        player = request.get_json()
-        return insert_player(player)
+        data = request.get_json()
+        player = Player(username=data["username"], password=data["password"])
+        db.session.add(player)
+        db.session.commit()
+        return "SUCCESS"
 
 @app.route('/players/<player_id>', methods=['GET', 'PUT', 'DELETE'])
 def route_players_id(player_id):
     if request.method == 'GET':
-        return get_player_by_id(player_id)
+        player = Player.query.get_or_404(player_id)
+        return jsonify(player)
+    
     elif request.method == 'PUT':
-        player = request.get_json()
-        return update_player(player_id, player)
+        data = request.get_json()
+        player = Player.query.get_or_404(player_id)
+        player.username = data["username"]
+        player.password = data["password"]
+        db.session.commit()
+        return 'SUCCESS'
+    
     elif request.method == 'DELETE':
-        return delete_player(player_id)
-
-def get_players():
-    players = Player.query.all()
-    return jsonify(players)
-
-def get_player_by_id(player_id):
-    player = Player.query.get_or_404(player_id)
-    return jsonify(player)
-
-def insert_player(data):
-    player = Player(username=data["username"], password=data["password"])
-    db.session.add(player)
-    db.session.commit()
-    return "SUCCESS"
-
-def update_player(player_id, new_player):
-    player = Player.query.get_or_404(player_id)
-    player.username = new_player["username"]
-    player.password = new_player["password"]
-    db.session.commit()
-    return 'SUCCESS'
-
-def delete_player(player_id):
-    player = Player.query.get_or_404(player_id)
-    db.session.delete(player)
-    db.session.commit()
-    return "SUCCESS"
+        player = Player.query.get_or_404(player_id)
+        db.session.delete(player)
+        db.session.commit()
+        return "SUCCESS"

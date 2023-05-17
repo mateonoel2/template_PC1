@@ -1,50 +1,85 @@
-<!doctype html>
+<!DOCTYPE html>
 <html>
+<head>
+  <title>Tic Tac Toe</title>
+  <style>
+    .board {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      grid-gap: 5px;
+    }
 
-   <h1>Login</h1>
-  
-   <script>
-        function login() {
-            var username = document.getElementById("username").value;
-            var password = document.getElementById("password").value;
-            var data = { "username": username, "password": password };
+    .cell {
+      width: 100px;
+      height: 100px;
+      background-color: lightgray;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 36px;
+    }
+    
+  </style>
+</head>
+<body>
+    <div class="board">
+        <div class="cell" onclick="makeMove(0)"></div>
+        <div class="cell" onclick="makeMove(1)"></div>
+        <div class="cell" onclick="makeMove(2)"></div>
+        <div class="cell" onclick="makeMove(3)"></div>
+        <div class="cell" onclick="makeMove(4)"></div>
+        <div class="cell" onclick="makeMove(5)"></div>
+        <div class="cell" onclick="makeMove(6)"></div>
+        <div class="cell" onclick="makeMove(7)"></div>
+        <div class="cell" onclick="makeMove(8)"></div>
+        </div>
+    
+    <br>
+    <br>
+    <button onclick="reloadBoard()">Load changes</button>
 
-            fetch('/login', {
-                method: 'POST',
-                body: JSON.stringify(data),
-                headers:{
-                    'Content-Type': 'application/json'
-                }
-            })   
-            .then(response => response.text())
-            .then(text =>   {
-                                if (text === "SUCCESS") {
-                                    window.location.href = "/game_menu";
-                                }
-                                else {
-                                    document.body.innerHTML = text;
-                                }
-                            }
-            )
-        }
-   </script>
+  <script>
+    function makeMove(index) {
+        //Enviar una solicitud PUT al servidor para actualizar el tablero
+        gameId = 1;
+        fetch(`/games/${gameId}`, {
+        method: 'PUT',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({index: index }),
+        })
+        .then(response => {
+            if (response.ok) {
+            // Actualizar visualmente la celda en el frontend
+            const cell = document.getElementsByClassName('cell')[index];
+            cell.innerText = 'X'; //puedes usar 'O' según corresponda
+            } else {
+            console.error('Error al realizar la solicitud PUT');
+            }
+        })
+        .catch(error => {
+            console.error('Error en la solicitud PUT', error);
+        });
+    }
 
- <body>
-   <div id="message"></div>
-   <label for="username">Username:</label>
-   <input type="text" id="username" name="username" required>
-   <br>
-   <br>
-   <label for="password">Password:</label>
-   <input type="password" id="password" name="password" required>
-   <br>
-   <br>
-   <button type="button" onclick="login()">Login</button>
-
- {% for mesg in get_flashed_messages() %}
- <p>{{ mesg }}</p>
- {% endfor %}
-
+    function reloadBoard() {
+        // Send a GET request to fetch the updated board state
+        gameId = 1;
+        fetch(`/games/${gameId}`)
+        .then(response => response.json())
+        .then(data => {
+            // Update the board in the HTML
+            const board = data.board;
+            const cells = document.getElementsByClassName('cell');
+            for (let i = 0; i < board.length; i++) {
+                cells[i].innerText = board[i];
+            }
+        })
+        .catch(error => {
+            console.error('Error in the GET request', error);
+        });
+    }
+  </script>
 </body>
-
 </html>
