@@ -53,6 +53,10 @@ with app.app_context():
 def menu():
     return render_template('menu.html')
 
+@app.route('/login.js')
+def login_js():
+    return render_template('login.js')
+
 @app.route('/signup_menu')
 def signup_menu():
     return render_template('signup.html')
