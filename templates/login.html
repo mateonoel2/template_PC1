@@ -4,10 +4,9 @@
    <h1>Login</h1>
   
    
-<script src="/login.js"></script>
+  <script src="/login.js"></script>
    
- <body>
-   <div id="message"></div>
+  <body>
    <label for="username">Username:</label>
    <input type="text" id="username" name="username" required>
    <br>
@@ -18,10 +17,10 @@
    <br>
    <button type="button" onclick="login()">Login</button>
 
- {% for mesg in get_flashed_messages() %}
- <p>{{ mesg }}</p>
- {% endfor %}
+    {% for mesg in get_flashed_messages() %}
+    <p>{{ mesg }}</p>
+    {% endfor %}
 
-</body>
+  </body>
 
 </html>
