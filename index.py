@@ -49,6 +49,14 @@ class Game(db.Model):
 with app.app_context():
     db.create_all()
 
+@app.route('/list')
+def list():
+    return render_template('list.html')
+
+@app.route('/list.js')
+def list_js():
+    return render_template('list.js')
+
 @app.route('/')
 def menu():
     return render_template('menu.html')
