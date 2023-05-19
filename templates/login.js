@@ -13,7 +13,7 @@ function login() {
     .then(response => response.text())
     .then(text =>   {
                         if (text === "SUCCESS") {
-                            window.location.href = "/game_menu";
+                            window.location.href = "/game_menu?username=" + data.username;
                         }
                         else {
                             document.body.innerHTML = text;

@@ -75,6 +75,9 @@
                 location.reload();
                 console.log(`Player ${username} added successfully`);          
             } 
+            else{
+                alert(text);
+            }
         })
     }
   

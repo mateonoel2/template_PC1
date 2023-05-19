@@ -1,6 +1,7 @@
 from dataclasses import dataclass
 from flask import Flask, jsonify, request, render_template, redirect, flash
 from flask_sqlalchemy import SQLAlchemy
+from sqlalchemy.exc import IntegrityError
 
 app = Flask(__name__)
 
@@ -20,7 +21,7 @@ class Player(db.Model):
     in_game: bool
 
     id = db.Column(db.Integer, primary_key=True)
-    username = db.Column(db.String(100), nullable=False)
+    username = db.Column(db.String(100), nullable=False, unique=True)
     password = db.Column(db.String(100), nullable=False)
     logged = db.Column(db.Boolean, nullable=False, default=False)
     in_game = db.Column(db.Boolean, nullable=False, default=False)
@@ -71,7 +72,14 @@ def signup_menu():
 
 @app.route('/game_menu')
 def game_menu():
-    return render_template('game.html')
+    try:
+        username = request.args.get('username')
+        current_player = Player.query.filter_by(username=username).first()
+        available_games = Game.query.all()
+        return render_template('game_menu.html', logged_in=current_player.logged, in_game=current_player.in_game, current_player=current_player, available_games=available_games)
+    except:
+        return "NO USERNAME PROVIDED"
+
 
 @app.route('/login_menu')
 def login_menu():
@@ -82,6 +90,8 @@ def login():
     data = request.get_json()
     player = Player.query.filter_by(username=data["username"]).first()
     if player and player.check_password(data["password"]):
+        player.logged = True
+        db.session.commit()
         return 'SUCCESS'
     else:
         flash('Invalid username or password')
@@ -140,9 +150,14 @@ def route_players():
     elif request.method == 'POST':
         data = request.get_json()
         player = Player(username=data["username"], password=data["password"])
-        db.session.add(player)
-        db.session.commit()
-        return "SUCCESS"
+        
+        try:
+            db.session.add(player)
+            db.session.commit()
+            return "SUCCESS"
+        except IntegrityError:
+            db.session.rollback()
+            return "Player with the same username already exists."
 
 @app.route('/players/<player_id>', methods=['GET', 'PUT', 'DELETE'])
 def route_players_id(player_id):
