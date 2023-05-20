@@ -25,7 +25,7 @@ El proyecto tiene la siguiente estructura de archivos:
 La carpeta `instance` contine la bd inicializada. La carpeta `templates` contiene los archivos HTML y JavaScript necesarios para la interfaz web. El archivo `colors_server.py` contiene el código de la aplicación Flask.
 
 ## Iniciar la aplicación
-1. En la terminal, asegúrate de estar ubicado en la carpeta del proyecto y con el entorno virtual activado.
+1. En la terminal, asegúrate de estar ubicado en la carpeta del proyecto
 2. Ejecuta el siguiente comando para iniciar el servidor de desarrollo:
    ```
    python -m flask --app colors_server.py run
