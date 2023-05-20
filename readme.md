@@ -1,7 +1,7 @@
 # PC1
 
 ## Descripción
-Este proyecto consiste en una aplicación web para administrar una lista de colores. Permite agregar, editar y eliminar colores de una tabla, y también visualizar los colores existentes.
+Esta práctica consiste en una aplicación web para administrar una lista de colores. Permite agregar, editar y eliminar colores de una tabla, y también visualizar los colores existentes.
 
 ## Requisitos
 - Python 3.7 o superior
