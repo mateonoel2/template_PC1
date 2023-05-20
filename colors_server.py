@@ -36,7 +36,7 @@ def list_js():
     return render_template('colors_list.js')
 
 @app.route('/colors', methods=['GET', 'POST'])
-def route_players():
+def route_colors():
     if request.method == 'GET':
         #TODO
     
@@ -44,7 +44,7 @@ def route_players():
         #TODO
 
 @app.route('/colors/<colors_id>', methods=['GET', 'PUT', 'DELETE'])
-def route_players_id(colors_id):
+def route_colors_id(colors_id):
     if request.method == 'GET':
         #TODO
     
