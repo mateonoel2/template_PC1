@@ -36,14 +36,14 @@ La carpeta `instance` contine la bd inicializada. La carpeta `templates` contien
 A continuación se detallan las tareas que debes completar en el código proporcionado:
 
 ### En el archivo `colors_list.html`
-1. Completa la sección de los campos de entrada para los valores de los colores en la tabla. Actualmente, los campos tienen los atributos `id` y `name` incompletos. Asígnale los valores correctos para que coincidan con los atributos esperados en el archivo JavaScript.
-2. Completa el atributo `onclick` del botón "add" para llamar a la función `addColor()`.
+1. No es necesario realizar algún cambio. Pero se puede observar la estructura del html y como asignar un color con el formato rgb.
 
 ### En el archivo `colors_list.js`
 1. Completa la función `addColor()` para obtener los valores de los campos de entrada de los colores y enviarlos al servidor mediante una petición `POST`. Los valores de los campos de entrada pueden obtenerse utilizando `document.getElementById('ID_DEL_CAMPO').value`.
-2. Completa la función `editPlayer(colorID)` para obtener el valor del campo de entrada `R` y enviarlo al servidor como parte de una petición `PUT` para actualizar el color con el ID correspondiente.
+2. Completa la función `editPlayer(colorID)` para obtener el valor del campo de entrada `R`,`G` y `B` y enviarlo al servidor como parte de una petición `PUT` para actualizar el color con el ID correspondiente.
 3. Completa la función `deletePlayer(colorID)` para enviar una petición `DELETE` al servidor para eliminar el color con el ID correspondiente.
 
 ### En el archivo `colors_server.py`
 1. En la clase `Colors`, completa los atributos `R`, `G` y `B` de acuerdo a los campos esperados en la base de datos y en la clase.
-2. En la función `route_players()`, completa la lógica para manejar las peticiones `GET` y `POST` de la ruta `/colors`. Para la petición `GET`, debes obtener todos los colores de la base
+2. En la función `route_colors()`, completa la lógica para manejar las peticiones `GET` y `POST` de la ruta `/colors`. Para la petición `GET`, debes obtener todos los colores de la base.
+3. En la función `route_colors_id()`, completa la lógica para manejar las peticiones `GET`, `PUT` y `DELETE` de la ruta `/colors/<colors_id>`. Para la petición `GET`, debes obtener solo el color deseado.
