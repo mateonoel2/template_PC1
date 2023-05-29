@@ -11,6 +11,7 @@ app.secret_key = 'my_secret_key'
 
 db = SQLAlchemy(app)
 
+# 1pt
 @dataclass
 class Colors(db.Model):
     id: #TODO
@@ -35,6 +36,7 @@ def list():
 def list_js():
     return render_template('colors_list.js')
 
+# 1pt
 @app.route('/colors', methods=['GET', 'POST'])
 def route_colors():
     if request.method == 'GET':
@@ -43,6 +45,7 @@ def route_colors():
     elif request.method == 'POST':
         #TODO
 
+# 2pt
 @app.route('/colors/<colors_id>', methods=['GET', 'PUT', 'DELETE'])
 def route_colors_id(colors_id):
     if request.method == 'GET':
