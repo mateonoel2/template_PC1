@@ -16,6 +16,6 @@
 
 ** respuesta **
 
-5. Describe los beneficios de utilizar un ORM como SQLAlchemy. (1pt)
+5. Describe los beneficios de utilizar Object-Relational Mapping (ORM) como SQLAlchemy. (1pt)
 
 ** respuesta **
