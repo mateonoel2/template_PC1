@@ -1,5 +1,5 @@
 // Fetch colors del servidor
-// 1pt
+// 3pt
 function fetchColors() {
   fetch('/colors')
     .then((response) => response.json())
@@ -50,13 +50,13 @@ function editColor(colorID) {
 }
 
 // Delete color
-// 2pt
-function deletePlayer(colorId) {
+// 1pt
+function deleteColor(colorId) {
   //TODO
 }
 
 // Create color
-// 2pt
+// 1pt
 function addColor() {
   //TODO
 }
