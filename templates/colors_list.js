@@ -51,7 +51,7 @@ function editColor(colorID) {
 
 // Delete color
 // 1pt
-function deleteColor(colorId) {
+function deleteColor(colorID) {
   //TODO
 }
 
