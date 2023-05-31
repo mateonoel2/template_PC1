@@ -1,7 +1,7 @@
 # PC1
 
 ## Descripción
-Esta práctica consiste en una aplicación web para administrar una lista de colores. Permite agregar, editar y eliminar colores de una tabla, y también visualizar los colores existentes. Además deberán Resolver algunas preguntas que se encuntran en el archivo `preguntas.md`
+Esta práctica consiste en una aplicación web para administrar una lista de colores. Permite agregar, editar y eliminar colores de una tabla, y también visualizar los colores existentes. Además deberán resolver algunas preguntas que se encuntran en el archivo `preguntas.md`
 
 ## Requisitos
 - Python 3.7 o superior
