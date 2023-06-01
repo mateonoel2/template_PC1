@@ -32,7 +32,7 @@ with app.app_context():
 def list():
     return render_template('colors_list.html')
 
-@app.route('/color_list.js')
+@app.route('/colors_list.js')
 def list_js():
     return render_template('colors_list.js')
 
